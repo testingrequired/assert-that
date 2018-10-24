@@ -1,0 +1,14 @@
+{
+  "name": "@testingrequired/assert-that",
+  "version": "0.0.0",
+  "description": "assertThat implementation",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Kylee Tilley",
+  "license": "MIT",
+  "dependencies": {
+    "jest": "^23.6.0"
+  }
+}
