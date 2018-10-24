@@ -1,5 +1,36 @@
 const lib = require("./index");
-const { equals, is, has } = lib;
+const { assertThat, equals, is, has } = lib;
+
+describe("assertThat", () => {
+  it("should call matcher with actual value", () => {
+    const actual = 10;
+    const matcher = jest.fn();
+
+    assertThat(10, matcher);
+
+    expect(matcher).toBeCalledWith(actual);
+  });
+
+  it("should throw error if matcher throws", () => {
+    const matcher = jest.fn(() => {
+      throw new Error("error message");
+    });
+
+    const matcherB = jest.fn(() => {
+      throw new Error("error message2");
+    });
+
+    expect(() => assertThat(null, matcher, matcherB)).toThrowError(
+      /Error: error message,Error: error message2/
+    );
+  });
+
+  it("should not throw error if matcher doesn't throws", () => {
+    const matcher = jest.fn();
+
+    expect(() => assertThat(null, matcher)).not.toThrowError();
+  });
+});
 
 describe("equals", () => {
   it("should throw error when not loosly equals", () => {
