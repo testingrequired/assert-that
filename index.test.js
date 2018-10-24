@@ -229,17 +229,17 @@ describe("has", () => {
 });
 
 describe("throws", () => {
+  let fn = () => {};
+
   it("should throw error if error isn't thrown", () => {
-    expect(() => throws(() => {})).toThrowError(
-      /expected \(\) => {} to throw error/
-    );
+    expect(() => throws(fn)).toThrowError(/expected \(\) => {} to throw error/);
   });
 
   it("should not throw error if error is thrown", () => {
-    expect(() =>
-      throws(() => {
-        throw new Error();
-      })
-    ).not.toThrowError();
+    fn = () => {
+      throw new Error();
+    };
+
+    expect(() => throws(fn)).not.toThrowError();
   });
 });
