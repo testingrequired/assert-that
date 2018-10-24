@@ -168,13 +168,13 @@ describe("has", () => {
 
     it("should throw error if array doesn't include item", () => {
       expect(() => has.item("cat")(["", "dog"])).toThrowError(
-        /expected that ,dog includes cat/
+        /expected ,dog to include cat/
       );
     });
 
     it("should throw error if string doesn't include item", () => {
       expect(() => has.item("cat")("The quick brown dog")).toThrowError(
-        /expected that The quick brown dog includes cat/
+        /expected The quick brown dog to include cat/
       );
     });
   });
@@ -212,7 +212,7 @@ describe("has", () => {
 
     it("should throw error if array doesn't length", () => {
       expect(() => has.length(1)(["", "dog"])).toThrowError(
-        /expected that ,dog has length of 1/
+        /expected ,dog to have length of 1/
       );
     });
 
@@ -222,7 +222,7 @@ describe("has", () => {
 
     it("should throw error if string doesn't length", () => {
       expect(() => has.length(1)("Ab")).toThrowError(
-        /expected that Ab has length of 1/
+        /expected Ab to have length of 1/
       );
     });
   });
