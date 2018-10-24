@@ -20,7 +20,10 @@ const equals = expected => actual =>
   assert(actual == expected, `expected ${actual} to equal ${expected}`);
 
 equals.strict = expected => actual =>
-  assert(actual === expected, `expected ${actual} to strict equal ${expected}`);
+  assert(
+    actual === expected,
+    `expected ${actual} to strictly equal ${expected}`
+  );
 
 const is = equals.strict;
 
