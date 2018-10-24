@@ -1,5 +1,5 @@
 const lib = require("./index");
-const { equals, is } = lib;
+const { equals, is, has } = lib;
 
 describe("equals", () => {
   it("should throw error when not loosly equals", () => {
@@ -121,6 +121,78 @@ describe("is", () => {
 
     it("should throw error if string is not empty", () => {
       expect(() => is.empty("dog")).toThrowError(/expected dog to be empty/);
+    });
+  });
+});
+
+describe("has", () => {
+  describe("item", () => {
+    it("should not throw error if array includes item", () => {
+      expect(() => has.item("dog")(["", "dog"])).not.toThrowError();
+    });
+
+    it("should not throw error if string includes item", () => {
+      expect(() => has.item("dog")("The quick brown dog")).not.toThrowError();
+    });
+
+    it("should throw error if array doesn't include item", () => {
+      expect(() => has.item("cat")(["", "dog"])).toThrowError(
+        /expected that ,dog includes cat/
+      );
+    });
+
+    it("should throw error if string doesn't include item", () => {
+      expect(() => has.item("cat")("The quick brown dog")).toThrowError(
+        /expected that The quick brown dog includes cat/
+      );
+    });
+  });
+
+  describe("items", () => {
+    it("should not throw error if array includes item", () => {
+      expect(() =>
+        has.items("dog", "cat")(["", "dog", "cat"])
+      ).not.toThrowError();
+    });
+
+    it("should not throw error if string includes item", () => {
+      expect(() =>
+        has.items("dog", "quick")("The quick brown dog")
+      ).not.toThrowError();
+    });
+
+    it("should throw error if array doesn't includes item", () => {
+      expect(() => has.items("dog", "rat")(["", "dog", "cat"])).toThrowError(
+        /expected that ,dog,cat includes dog,rat/
+      );
+    });
+
+    it("should throw error if string doesn't includes item", () => {
+      expect(() =>
+        has.items("cat", "quick")("The quick brown dog")
+      ).toThrowError(/expected that The quick brown dog includes cat,quick/);
+    });
+  });
+
+  describe("length", () => {
+    it("should not throw error if array has length", () => {
+      expect(() => has.length(2)(["", "dog"])).not.toThrowError();
+    });
+
+    it("should throw error if array doesn't length", () => {
+      expect(() => has.length(1)(["", "dog"])).toThrowError(
+        /expected that ,dog has length of 1/
+      );
+    });
+
+    it("should not throw error if string has length", () => {
+      expect(() => has.length(2)("Ab")).not.toThrowError();
+    });
+
+    it("should throw error if string doesn't length", () => {
+      expect(() => has.length(1)("Ab")).toThrowError(
+        /expected that Ab has length of 1/
+      );
     });
   });
 });

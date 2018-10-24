@@ -45,7 +45,7 @@ has.item = expected => actual =>
 
 has.items = (...expected) => actual =>
   assert(
-    expected.every(item => item.includes(actual)),
+    expected.every(item => actual.includes(item)),
     `expected that ${actual} includes ${expected}`
   );
 
