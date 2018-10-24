@@ -1,5 +1,5 @@
 const lib = require("./index");
-const { assertThat, equals, is, has } = lib;
+const { assertThat, equals, is, has, throws } = lib;
 
 describe("assertThat", () => {
   it("should call matcher with actual value", () => {
@@ -225,5 +225,21 @@ describe("has", () => {
         /expected Ab to have length of 1/
       );
     });
+  });
+});
+
+describe("throws", () => {
+  it("should throw error if error isn't thrown", () => {
+    expect(() => throws(() => {})).toThrowError(
+      /expected \(\) => {} to throw error/
+    );
+  });
+
+  it("should not throw error if error is thrown", () => {
+    expect(() =>
+      throws(() => {
+        throw new Error();
+      })
+    ).not.toThrowError();
   });
 });

@@ -75,9 +75,22 @@ has.length = matcher(
   (e, a) => `expected ${a} to have length of ${e}`
 );
 
+const throws = matcherActual(
+  a => {
+    try {
+      a();
+      return false;
+    } catch (e) {
+      return true;
+    }
+  },
+  a => `expected ${a} to throw error`
+);
+
 module.exports = {
   assertThat,
   equals,
   is,
-  has
+  has,
+  throws
 };
