@@ -1,14 +1,8 @@
 const assert = require("assert");
 
 const matcher = (conditionFn, messageFn) => expected => actual => {
-  const condition = conditionFn(expected, actual);
-  const message = messageFn(expected, actual);
-  return { condition, message };
-};
-
-const matcherActual = (conditionFn, messageFn) => actual => {
-  const condition = conditionFn(actual);
-  const message = messageFn(actual);
+  const condition = conditionFn(actual, expected);
+  const message = messageFn(actual, expected);
   return { condition, message };
 };
 
@@ -30,40 +24,40 @@ const assertThat = (actual, ...matchers) => {
 };
 
 const equals = matcher(
-  (e, a) => a == e,
-  (e, a) => `expected ${a} to equal ${e}`
+  (a, e) => a == e,
+  (a, e) => `expected ${a} to equal ${e}`
 );
 
 equals.strict = matcher(
-  (e, a) => a === e,
-  (e, a) => `expected ${a} to strictly equal ${e}`
+  (a, e) => a === e,
+  (a, e) => `expected ${a} to strictly equal ${e}`
 );
 
 const is = equals.strict;
-is.true = matcherActual(a => a === true, a => `expected ${a} to be true`);
-is.false = matcherActual(a => a === false, a => `expected ${a} to be false`);
-is.truthy = matcherActual(a => !!a, a => `expected ${a} to be truthy`);
-is.falsey = matcherActual(a => !a, a => `expected ${a} to be falsey`);
-is.empty = matcherActual(a => a.length === 0, a => `expected ${a} to be empty`);
+is.true = matcher(a => a === true, a => `expected ${a} to be true`);
+is.false = matcher(a => a === false, a => `expected ${a} to be false`);
+is.truthy = matcher(a => !!a, a => `expected ${a} to be truthy`);
+is.falsey = matcher(a => !a, a => `expected ${a} to be falsey`);
+is.empty = matcher(a => a.length === 0, a => `expected ${a} to be empty`);
 
 const has = {};
 
 has.item = matcher(
-  (e, a) => a.includes(e),
-  (e, a) => `expected ${a} to include ${e}`
+  (a, e) => a.includes(e),
+  (a, e) => `expected ${a} to include ${e}`
 );
 
 has.items = matcher(
-  (e, a) => e.every(item => a.includes(item)),
-  (e, a) => `expected that ${a} includes ${e}`
+  (a, e) => e.every(item => a.includes(item)),
+  (a, e) => `expected that ${a} includes ${e}`
 );
 
 has.length = matcher(
-  (e, a) => a.length === e,
-  (e, a) => `expected ${a} to have length of ${e}`
+  (a, e) => a.length === e,
+  (a, e) => `expected ${a} to have length of ${e}`
 );
 
-const throws = matcherActual(
+const throws = matcher(
   a => {
     try {
       a();

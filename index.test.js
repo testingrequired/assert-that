@@ -76,28 +76,28 @@ describe("equals", () => {
 describe("is", () => {
   describe("true", () => {
     it("should throw error when truthy", () => {
-      expect(is.true(1)).toEqual({
+      expect(is.true()(1)).toEqual({
         condition: false,
         message: "expected 1 to be true"
       });
     });
 
     it("should not throw error when true", () => {
-      expect(is.true(true)).toEqual({
+      expect(is.true()(true)).toEqual({
         condition: true,
         message: "expected true to be true"
       });
     });
 
     it("should throw error when falsey", () => {
-      expect(is.true(0)).toEqual({
+      expect(is.true()(0)).toEqual({
         condition: false,
         message: "expected 0 to be true"
       });
     });
 
     it("should throw error when false", () => {
-      expect(is.true(false)).toEqual({
+      expect(is.true()(false)).toEqual({
         condition: false,
         message: "expected false to be true"
       });
@@ -106,28 +106,28 @@ describe("is", () => {
 
   describe("false", () => {
     it("should throw error when falsey", () => {
-      expect(is.false(0)).toEqual({
+      expect(is.false()(0)).toEqual({
         condition: false,
         message: "expected 0 to be false"
       });
     });
 
     it("should not throw error when false", () => {
-      expect(is.false(false)).toEqual({
+      expect(is.false()(false)).toEqual({
         condition: true,
         message: "expected false to be false"
       });
     });
 
     it("should throw error when truthy", () => {
-      expect(is.false(1)).toEqual({
+      expect(is.false()(1)).toEqual({
         condition: false,
         message: "expected 1 to be false"
       });
     });
 
     it("should throw error when true", () => {
-      expect(is.false(true)).toEqual({
+      expect(is.false()(true)).toEqual({
         condition: false,
         message: "expected true to be false"
       });
@@ -136,28 +136,28 @@ describe("is", () => {
 
   describe("truthy", () => {
     it("should not throw error when truthy", () => {
-      expect(is.truthy(1)).toEqual({
+      expect(is.truthy()(1)).toEqual({
         condition: true,
         message: "expected 1 to be truthy"
       });
     });
 
     it("should not throw error when true", () => {
-      expect(is.truthy(true)).toEqual({
+      expect(is.truthy()(true)).toEqual({
         condition: true,
         message: "expected true to be truthy"
       });
     });
 
     it("should throw error when falsey", () => {
-      expect(is.truthy(0)).toEqual({
+      expect(is.truthy()(0)).toEqual({
         condition: false,
         message: "expected 0 to be truthy"
       });
     });
 
     it("should throw error when false", () => {
-      expect(is.truthy(false)).toEqual({
+      expect(is.truthy()(false)).toEqual({
         condition: false,
         message: "expected false to be truthy"
       });
@@ -166,28 +166,28 @@ describe("is", () => {
 
   describe("falsey", () => {
     it("should not throw error when falsey", () => {
-      expect(is.falsey(0)).toEqual({
+      expect(is.falsey()(0)).toEqual({
         condition: true,
         message: "expected 0 to be falsey"
       });
     });
 
     it("should not throw error when false", () => {
-      expect(is.falsey(false)).toEqual({
+      expect(is.falsey()(false)).toEqual({
         condition: true,
         message: "expected false to be falsey"
       });
     });
 
     it("should throw error when truthy", () => {
-      expect(is.falsey(1)).toEqual({
+      expect(is.falsey()(1)).toEqual({
         condition: false,
         message: "expected 1 to be falsey"
       });
     });
 
     it("should throw error when true", () => {
-      expect(is.falsey(true)).toEqual({
+      expect(is.falsey()(true)).toEqual({
         condition: false,
         message: "expected true to be falsey"
       });
@@ -200,21 +200,21 @@ describe("is", () => {
     });
 
     it("should throw error if array is not empty", () => {
-      expect(is.empty([1, 2, 3])).toEqual({
+      expect(is.empty()([1, 2, 3])).toEqual({
         condition: false,
         message: "expected 1,2,3 to be empty"
       });
     });
 
     it("should not throw error if string is empty", () => {
-      expect(is.empty("")).toEqual({
+      expect(is.empty()("")).toEqual({
         condition: true,
         message: "expected  to be empty"
       });
     });
 
     it("should throw error if string is not empty", () => {
-      expect(is.empty("dog")).toEqual({
+      expect(is.empty()("dog")).toEqual({
         condition: false,
         message: "expected dog to be empty"
       });
@@ -318,7 +318,7 @@ describe("throws", () => {
   let fn = () => {};
 
   it("should throw error if error isn't thrown", () => {
-    expect(throws(fn)).toEqual({
+    expect(throws()(fn)).toEqual({
       condition: false,
       message: "expected () => {} to throw error"
     });
@@ -328,7 +328,7 @@ describe("throws", () => {
     // prettier-ignore
     fn = () => {throw new Error();};
 
-    expect(throws(fn)).toEqual({
+    expect(throws()(fn)).toEqual({
       condition: true,
       message:
         "expected () => {\n      throw new Error();\n    } to throw error"
