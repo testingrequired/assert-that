@@ -4,7 +4,10 @@ const { assertThat, equals, is, has, throws } = lib;
 describe("assertThat", () => {
   it("should call matcher with actual value", () => {
     const actual = 10;
-    const matcher = jest.fn();
+    const matcher = jest.fn(() => ({
+      condition: true,
+      message: ""
+    }));
 
     assertThat(10, matcher);
 
@@ -26,36 +29,46 @@ describe("assertThat", () => {
   });
 
   it("should not throw error if matcher doesn't throws", () => {
-    const matcher = jest.fn();
-
+    const matcher = jest.fn(() => ({ condition: true, message: "" }));
     expect(() => assertThat(null, matcher)).not.toThrowError();
   });
 });
 
 describe("equals", () => {
   it("should throw error when not loosly equals", () => {
-    expect(() => equals(1)("10")).toThrowError(/expected 10 to equal 1/);
+    expect(equals(1)("10")).toEqual({
+      condition: false,
+      message: "expected 10 to equal 1"
+    });
   });
 
   it("should not throw error when loosly equals", () => {
-    expect(() => equals(1)("1")).not.toThrowError();
+    expect(equals(1)("1")).toEqual({
+      condition: true,
+      message: "expected 1 to equal 1"
+    });
   });
 
   describe("strict", () => {
     it("should throw error when not loosly equals", () => {
-      expect(() => equals.strict(1)("10")).toThrowError(
-        /expected 10 to strictly equal 1/
-      );
+      expect(equals.strict(1)("10")).toEqual({
+        condition: false,
+        message: "expected 10 to strictly equal 1"
+      });
     });
 
     it("should throw error when loosly equals", () => {
-      expect(() => equals.strict(1)("1")).toThrowError(
-        /expected 1 to strictly equal 1/
-      );
+      expect(equals.strict(1)("1")).toEqual({
+        condition: false,
+        message: "expected 1 to strictly equal 1"
+      });
     });
 
     it("should not throw error when strictly equals", () => {
-      expect(() => equals.strict(1)(1)).not.toThrowError();
+      expect(equals.strict(1)(1)).toEqual({
+        condition: true,
+        message: "expected 1 to strictly equal 1"
+      });
     });
   });
 });
@@ -63,75 +76,121 @@ describe("equals", () => {
 describe("is", () => {
   describe("true", () => {
     it("should throw error when truthy", () => {
-      expect(() => is.true(1)).toThrowError(/expected 1 to be true/);
+      expect(is.true(1)).toEqual({
+        condition: false,
+        message: "expected 1 to be true"
+      });
     });
 
     it("should not throw error when true", () => {
-      expect(() => is.true(true)).not.toThrowError();
+      expect(is.true(true)).toEqual({
+        condition: true,
+        message: "expected true to be true"
+      });
     });
 
     it("should throw error when falsey", () => {
-      expect(() => is.true(0)).toThrowError(/expected 0 to be true/);
+      expect(is.true(0)).toEqual({
+        condition: false,
+        message: "expected 0 to be true"
+      });
     });
 
     it("should throw error when false", () => {
-      expect(() => is.true(false)).toThrowError(/expected false to be true/);
+      expect(is.true(false)).toEqual({
+        condition: false,
+        message: "expected false to be true"
+      });
     });
   });
 
   describe("false", () => {
     it("should throw error when falsey", () => {
-      expect(() => is.false(0)).toThrowError(/expected 0 to be false/);
+      expect(is.false(0)).toEqual({
+        condition: false,
+        message: "expected 0 to be false"
+      });
     });
 
     it("should not throw error when false", () => {
-      expect(() => is.false(false)).not.toThrowError();
+      expect(is.false(false)).toEqual({
+        condition: true,
+        message: "expected false to be false"
+      });
     });
 
     it("should throw error when truthy", () => {
-      expect(() => is.false(1)).toThrowError(/expected 1 to be false/);
+      expect(is.false(1)).toEqual({
+        condition: false,
+        message: "expected 1 to be false"
+      });
     });
 
     it("should throw error when true", () => {
-      expect(() => is.false(true)).toThrowError(/expected true to be false/);
+      expect(is.false(true)).toEqual({
+        condition: false,
+        message: "expected true to be false"
+      });
     });
   });
 
   describe("truthy", () => {
     it("should not throw error when truthy", () => {
-      expect(() => is.truthy(1)).not.toThrowError();
+      expect(is.truthy(1)).toEqual({
+        condition: true,
+        message: "expected 1 to be truthy"
+      });
     });
 
     it("should not throw error when true", () => {
-      expect(() => is.truthy(true)).not.toThrowError();
+      expect(is.truthy(true)).toEqual({
+        condition: true,
+        message: "expected true to be truthy"
+      });
     });
 
     it("should throw error when falsey", () => {
-      expect(() => is.truthy(0)).toThrowError(/expected 0 to be truthy/);
+      expect(is.truthy(0)).toEqual({
+        condition: false,
+        message: "expected 0 to be truthy"
+      });
     });
 
     it("should throw error when false", () => {
-      expect(() => is.truthy(false)).toThrowError(
-        /expected false to be truthy/
-      );
+      expect(is.truthy(false)).toEqual({
+        condition: false,
+        message: "expected false to be truthy"
+      });
     });
   });
 
   describe("falsey", () => {
     it("should not throw error when falsey", () => {
-      expect(() => is.falsey(0)).not.toThrowError();
+      expect(is.falsey(0)).toEqual({
+        condition: true,
+        message: "expected 0 to be falsey"
+      });
     });
 
     it("should not throw error when false", () => {
-      expect(() => is.falsey(false)).not.toThrowError();
+      expect(is.falsey(false)).toEqual({
+        condition: true,
+        message: "expected false to be falsey"
+      });
     });
 
     it("should throw error when truthy", () => {
-      expect(() => is.falsey(1)).toThrowError(/expected 1 to be falsey/);
+      expect(is.falsey(1)).toEqual({
+        condition: false,
+        message: "expected 1 to be falsey"
+      });
     });
 
     it("should throw error when true", () => {
-      expect(() => is.falsey(true)).toThrowError(/expected true to be falsey/);
+      expect(is.falsey(true)).toEqual({
+        condition: false,
+        message: "expected true to be falsey"
+      });
     });
   });
 
@@ -141,17 +200,24 @@ describe("is", () => {
     });
 
     it("should throw error if array is not empty", () => {
-      expect(() => is.empty([1, 2, 3])).toThrowError(
-        /expected 1,2,3 to be empty/
-      );
+      expect(is.empty([1, 2, 3])).toEqual({
+        condition: false,
+        message: "expected 1,2,3 to be empty"
+      });
     });
 
     it("should not throw error if string is empty", () => {
-      expect(() => is.empty("")).not.toThrowError();
+      expect(is.empty("")).toEqual({
+        condition: true,
+        message: "expected  to be empty"
+      });
     });
 
     it("should throw error if string is not empty", () => {
-      expect(() => is.empty("dog")).toThrowError(/expected dog to be empty/);
+      expect(is.empty("dog")).toEqual({
+        condition: false,
+        message: "expected dog to be empty"
+      });
     });
   });
 });
@@ -159,71 +225,91 @@ describe("is", () => {
 describe("has", () => {
   describe("item", () => {
     it("should not throw error if array includes item", () => {
-      expect(() => has.item("dog")(["", "dog"])).not.toThrowError();
+      expect(has.item("dog")(["", "dog"])).toEqual({
+        condition: true,
+        message: "expected ,dog to include dog"
+      });
     });
 
     it("should not throw error if string includes item", () => {
-      expect(() => has.item("dog")("The quick brown dog")).not.toThrowError();
+      expect(has.item("dog")("The quick brown dog")).toEqual({
+        condition: true,
+        message: "expected The quick brown dog to include dog"
+      });
     });
 
     it("should throw error if array doesn't include item", () => {
-      expect(() => has.item("cat")(["", "dog"])).toThrowError(
-        /expected ,dog to include cat/
-      );
+      expect(has.item("cat")(["", "dog"])).toEqual({
+        condition: false,
+        message: "expected ,dog to include cat"
+      });
     });
 
     it("should throw error if string doesn't include item", () => {
-      expect(() => has.item("cat")("The quick brown dog")).toThrowError(
-        /expected The quick brown dog to include cat/
-      );
+      expect(has.item("cat")("The quick brown dog")).toEqual({
+        condition: false,
+        message: "expected The quick brown dog to include cat"
+      });
     });
   });
 
   describe("items", () => {
     it("should not throw error if array includes item", () => {
-      expect(() =>
-        has.items("dog", "cat")(["", "dog", "cat"])
-      ).not.toThrowError();
+      expect(has.items(["dog", "cat"])(["", "dog", "cat"])).toEqual({
+        condition: true,
+        message: "expected that ,dog,cat includes dog,cat"
+      });
     });
 
     it("should not throw error if string includes item", () => {
-      expect(() =>
-        has.items("dog", "quick")("The quick brown dog")
-      ).not.toThrowError();
+      expect(has.items(["dog", "quick"])("The quick brown dog")).toEqual({
+        condition: true,
+        message: "expected that The quick brown dog includes dog,quick"
+      });
     });
 
     it("should throw error if array doesn't includes item", () => {
-      expect(() => has.items("dog", "rat")(["", "dog", "cat"])).toThrowError(
-        /expected that ,dog,cat includes dog,rat/
-      );
+      expect(has.items(["dog", "rat"])(["", "dog", "cat"])).toEqual({
+        condition: false,
+        message: "expected that ,dog,cat includes dog,rat"
+      });
     });
 
     it("should throw error if string doesn't includes item", () => {
-      expect(() =>
-        has.items("cat", "quick")("The quick brown dog")
-      ).toThrowError(/expected that The quick brown dog includes cat,quick/);
+      expect(has.items(["cat", "quick"])("The quick brown dog")).toEqual({
+        condition: false,
+        message: "expected that The quick brown dog includes cat,quick"
+      });
     });
   });
 
   describe("length", () => {
     it("should not throw error if array has length", () => {
-      expect(() => has.length(2)(["", "dog"])).not.toThrowError();
+      expect(has.length(2)(["", "dog"])).toEqual({
+        condition: true,
+        message: "expected ,dog to have length of 2"
+      });
     });
 
     it("should throw error if array doesn't length", () => {
-      expect(() => has.length(1)(["", "dog"])).toThrowError(
-        /expected ,dog to have length of 1/
-      );
+      expect(has.length(1)(["", "dog"])).toEqual({
+        condition: false,
+        message: "expected ,dog to have length of 1"
+      });
     });
 
     it("should not throw error if string has length", () => {
-      expect(() => has.length(2)("Ab")).not.toThrowError();
+      expect(has.length(2)("Ab")).toEqual({
+        condition: true,
+        message: "expected Ab to have length of 2"
+      });
     });
 
     it("should throw error if string doesn't length", () => {
-      expect(() => has.length(1)("Ab")).toThrowError(
-        /expected Ab to have length of 1/
-      );
+      expect(has.length(1)("Ab")).toEqual({
+        condition: false,
+        message: "expected Ab to have length of 1"
+      });
     });
   });
 });
@@ -232,14 +318,20 @@ describe("throws", () => {
   let fn = () => {};
 
   it("should throw error if error isn't thrown", () => {
-    expect(() => throws(fn)).toThrowError(/expected \(\) => {} to throw error/);
+    expect(throws(fn)).toEqual({
+      condition: false,
+      message: "expected () => {} to throw error"
+    });
   });
 
   it("should not throw error if error is thrown", () => {
-    fn = () => {
-      throw new Error();
-    };
+    // prettier-ignore
+    fn = () => {throw new Error();};
 
-    expect(() => throws(fn)).not.toThrowError();
+    expect(throws(fn)).toEqual({
+      condition: true,
+      message:
+        "expected () => {\n      throw new Error();\n    } to throw error"
+    });
   });
 });
