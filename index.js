@@ -1,4 +1,19 @@
 const assert = require("assert");
+const { isFunction } = require("./utils");
+
+const not = argsOrFn => {
+  if (isFunction(argsOrFn)) {
+    const fn = argsOrFn;
+    return (...args) => invertCondition(fn(...args));
+  } else {
+    const args = argsOrFn;
+    return invertCondition(args);
+  }
+
+  function invertCondition({ condition, message }) {
+    return { condition: !condition, message };
+  }
+};
 
 const matcher = (conditionFn, messageFn) => expected => actual => {
   const condition = conditionFn(actual, expected);
@@ -74,5 +89,6 @@ module.exports = {
   equals,
   is,
   has,
-  throws
+  throws,
+  not
 };
