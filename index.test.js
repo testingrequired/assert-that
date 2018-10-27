@@ -1,5 +1,31 @@
 const lib = require("./index");
-const { assertThat, equals, is, has, throws } = lib;
+const { assertThat, equals, is, has, throws, not } = lib;
+
+describe("not", () => {
+  const condition = false;
+  const message = "";
+  let matcher;
+
+  beforeEach(() => {
+    matcher = jest.fn(expected => actual => {
+      return { condition, message };
+    });
+  });
+
+  it("should invert condition", () => {
+    expect(not(matcher()())).toEqual({
+      condition: !condition,
+      message
+    });
+  });
+
+  it("should invert matcher", () => {
+    expect(not(matcher())()).toEqual({
+      condition: !condition,
+      message
+    });
+  });
+});
 
 describe("assertThat", () => {
   it("should call matcher with actual value", () => {
