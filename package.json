@@ -9,6 +9,6 @@
   "author": "Kylee Tilley",
   "license": "MIT",
   "devDependencies": {
-    "jest": "^23.6.0"
+    "jest": "^24.8.0"
   }
 }
