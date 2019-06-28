@@ -1,4 +1,5 @@
-const lib = require("./index");
+import lib from "./index";
+
 const { assertThat, equals, is, has, throws, not } = lib;
 
 describe("not", () => {
@@ -346,7 +347,7 @@ describe("throws", () => {
   it("should throw error if error isn't thrown", () => {
     expect(throws()(fn)).toEqual({
       condition: false,
-      message: "expected () => {} to throw error"
+      message: "expected function fn() {} to throw error"
     });
   });
 
@@ -357,7 +358,7 @@ describe("throws", () => {
     expect(throws()(fn)).toEqual({
       condition: true,
       message:
-        "expected () => {\n      throw new Error();\n    } to throw error"
+        "expected function fn() {\n      throw new Error();\n    } to throw error"
     });
   });
 });

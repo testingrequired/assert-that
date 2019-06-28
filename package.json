@@ -4,11 +4,18 @@
   "description": "assertThat implementation",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "rollup --config"
   },
   "author": "Kylee Tilley",
   "license": "MIT",
   "devDependencies": {
-    "jest": "^24.8.0"
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "jest": "^24.8.0",
+    "rollup-plugin-babel": "^4.3.3"
+  },
+  "dependencies": {
+    "rollup": "^1.16.2"
   }
 }

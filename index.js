@@ -1,11 +1,11 @@
-const assertThat = require("./lib/assertThat");
-const not = require("./lib/matchers/not");
-const equals = require("./lib/matchers/equals");
-const is = require("./lib/matchers/is");
-const has = require("./lib/matchers/has");
-const throws = require("./lib/matchers/throws");
+import assertThat from "./lib/assertThat";
+import not from "./lib/matchers/not";
+import equals from "./lib/matchers/equals";
+import is from "./lib/matchers/is";
+import has from "./lib/matchers/has";
+import throws from "./lib/matchers/throws";
 
-module.exports = {
+export default {
   assertThat,
   equals,
   is,
